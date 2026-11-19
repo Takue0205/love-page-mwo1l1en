@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hey You 💕</title>
+  <title>Hey You 😗</title>
   <style>
     :root {
       --bg1: #fff1f5;
@@ -188,6 +188,23 @@
     /* Success state */
     .hidden { display: none !important; }
 
+    .video-wrap {
+      margin-top: 18px;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .video-wrap video {
+      width: min(100%, 520px);
+      max-height: 55vh;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(90, 36, 56, 0.18);
+      background: #000;
+      outline: none;
+    }
+
     .success {
       animation: popIn 500ms ease both;
     }
@@ -279,7 +296,7 @@
   <main class="card" id="card">
     <div id="questionView">
       <div class="tag">a tiny question for my favorite person</div>
-      <h1>Hey beautiful 💗</h1>
+      <h1>Hey Noku 💐</h1>
       <p class="subtitle">Just checking in on the cutest human I know...</p>
       <div class="question">How are you?</div>
 
@@ -292,10 +309,13 @@
 
     <div id="successView" class="success hidden">
       <div class="glow" aria-hidden="true"></div>
-      <div class="big-heart">💖</div>
+      <div class="big-heart">💥</div>
       <h2>I miss you too baby</h2>
       <p>More than you know. Sending you the biggest hug and all my love.</p>
       <div class="sparkle">You make my world softer, brighter, and so much sweeter.</div>
+      <div class="video-wrap">
+        <video id="loveVideo" src="noku-video.mp4" playsinline controls preload="auto"></video>
+      </div>
     </div>
   </main>
 
@@ -319,7 +339,7 @@
         b.style.animationDelay = (-delay) + 's';
         b.style.setProperty('--drift', drift);
         if (isHeart) {
-          b.textContent = Math.random() < 0.5 ? '❤' : '💕';
+          b.textContent = Math.random() < 0.5 ? '❤' : '😗';
           b.style.fontSize = size + 'px';
         } else {
           b.style.width = size + 'px';
@@ -337,13 +357,14 @@
     const questionView = document.getElementById('questionView');
     const successView = document.getElementById('successView');
     const loveLayer = document.getElementById('loveLayer');
+    const loveVideo = document.getElementById('loveVideo');
 
     const dodgeLines = [
       "hey! that one's shy 🙈",
       "nope, try the other one 😌",
       "too slow, cutie!",
       "that button is feeling playful today",
-      "hmm... I think you meant the other one 💕",
+      "hmm... I think you meant the other one 💷",
       "nice try! 😄"
     ];
     let dodgeCount = 0;
@@ -405,7 +426,7 @@
     });
 
     function spawnHeartsBurst(total, durationMs) {
-      const hearts = ['💖','💗','💘','💕','❤️','💞','💓'];
+      const hearts = ['💥','💥','💥','😗','❤','💪','💩'];
       const start = Date.now();
       function emitWave(count) {
         for (let i = 0; i < count; i++) {
@@ -441,6 +462,12 @@
     missBtn.addEventListener('click', function() {
       questionView.classList.add('hidden');
       successView.classList.remove('hidden');
+      if (loveVideo) {
+        const playPromise = loveVideo.play();
+        if (playPromise && typeof playPromise.catch === 'function') {
+          playPromise.catch(() => {});
+        }
+      }
       spawnHeartsBurst(28, 4500);
       // keep a gentle occasional heart floating
       setInterval(() => spawnHeartsBurst(3, 100), 2200);
