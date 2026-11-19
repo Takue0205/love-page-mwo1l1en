@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hey You 💕</title>
+  <style>
+    :root {
+      --bg1: #fff1f5;
+      --bg2: #ffe4ec;
+      --bg3: #f3e8ff;
+      --card: rgba(255, 255, 255, 0.78);
+      --text: #5b2b3a;
+      --accent: #ff5fa2;
+      --accent-dark: #e94b8d;
+      --soft: #ffd1e1;
+      --yes: #ff6fae;
+      --yes-dark: #ff4f99;
+      --no: #b9a7b6;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", "Trebuchet MS", "Gill Sans", system-ui, -apple-system, sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, #fff7fb 0%, transparent 30%),
+                  radial-gradient(circle at 80% 10%, #ffeaf3 0%, transparent 25%),
+                  linear-gradient(135deg, var(--bg1), var(--bg2) 45%, var(--bg3));
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    /* Floating bubbly background */
+    .bubbles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -120px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.45);
+      box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.6);
+      animation: floatUp linear infinite;
+      filter: blur(0.2px);
+    }
+
+    .bubble.heart {
+      background: transparent;
+      box-shadow: none;
+      filter: none;
+      font-size: 24px;
+      opacity: 0.35;
+      animation-name: floatUpHeart;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+      10% { opacity: 0.55; }
+      100% { transform: translateY(-120vh) translateX(var(--drift)) scale(1.15); opacity: 0; }
+    }
+
+    @keyframes floatUpHeart {
+      0% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
+      10% { opacity: 0.4; }
+      100% { transform: translateY(-120vh) translateX(var(--drift)) rotate(25deg); opacity: 0; }
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(560px, 100%);
+      background: var(--card);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      border-radius: 28px;
+      padding: 36px 28px 30px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(233, 75, 141, 0.18), 0 6px 18px rgba(91, 43, 58, 0.08);
+      animation: popIn 700ms cubic-bezier(.2,.8,.2,1) both;
+    }
+
+    @keyframes popIn {
+      from { transform: translateY(20px) scale(0.97); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #fff;
+      color: var(--accent-dark);
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(255, 95, 162, 0.15);
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      margin: 6px 0 8px;
+      font-size: clamp(1.9rem, 4.5vw, 2.6rem);
+      line-height: 1.15;
+      letter-spacing: 0.2px;
+    }
+
+    .subtitle {
+      margin: 0 auto 22px;
+      max-width: 36ch;
+      font-size: 1.05rem;
+      color: #7a4a5c;
+    }
+
+    .question {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 8px 0 18px;
+    }
+
+    .button-area {
+      position: relative;
+      height: 150px;
+      margin-top: 8px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, left 280ms cubic-bezier(.22,.7,.2,1), top 280ms cubic-bezier(.22,.7,.2,1);
+      box-shadow: 0 8px 18px rgba(91, 43, 58, 0.12);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      white-space: nowrap;
+    }
+
+    .btn:active { transform: scale(0.98); }
+
+    #missBtn {
+      position: absolute;
+      left: 50%;
+      top: 78px;
+      transform: translateX(-50%);
+      background: linear-gradient(180deg, var(--yes), var(--yes-dark));
+      color: white;
+      min-width: 170px;
+      z-index: 2;
+    }
+
+    #missBtn:hover {
+      box-shadow: 0 12px 22px rgba(255, 79, 153, 0.35);
+      filter: brightness(1.02);
+    }
+
+    #alrightBtn {
+      position: absolute;
+      left: 50%;
+      top: 10px;
+      transform: translateX(-50%);
+      background: #fff;
+      color: #7a5a6a;
+      border: 2px dashed #e7bfd0;
+      min-width: 150px;
+      z-index: 3;
+    }
+
+    .hint {
+      margin-top: 8px;
+      font-size: 0.92rem;
+      color: #8a6574;
+      min-height: 1.4em;
+      transition: opacity 200ms ease;
+    }
+
+    /* Success state */
+    .hidden { display: none !important; }
+
+    .success {
+      animation: popIn 500ms ease both;
+    }
+
+    .success h2 {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      margin: 10px 0 8px;
+      color: #d83b84;
+    }
+
+    .success p {
+      font-size: 1.15rem;
+      margin: 0 0 12px;
+      color: #6f4254;
+    }
+
+    .big-heart {
+      font-size: 4rem;
+      line-height: 1;
+      display: inline-block;
+      animation: heartbeat 1s ease-in-out infinite;
+      filter: drop-shadow(0 8px 18px rgba(255, 79, 153, 0.35));
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      20% { transform: scale(1.12); }
+      40% { transform: scale(0.98); }
+      60% { transform: scale(1.16); }
+    }
+
+    .sparkle {
+      margin-top: 10px;
+      font-size: 1.05rem;
+      color: #8a4f66;
+    }
+
+    /* Love burst overlay */
+    .love-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .float-heart {
+      position: absolute;
+      bottom: -40px;
+      font-size: 24px;
+      animation: riseHeart var(--dur) ease-in forwards;
+      opacity: 0.95;
+      will-change: transform, opacity;
+      text-shadow: 0 6px 14px rgba(216, 59, 132, 0.25);
+    }
+
+    @keyframes riseHeart {
+      0% { transform: translate(0, 0) scale(0.7) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translate(var(--dx), -110vh) scale(var(--scale)) rotate(var(--rot)); opacity: 0; }
+    }
+
+    .glow {
+      position: absolute;
+      inset: -20%;
+      background: radial-gradient(circle at center, rgba(255, 170, 210, 0.35), transparent 55%);
+      animation: glowPulse 2.8s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.35; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.04); }
+    }
+
+    @media (max-width: 420px) {
+      .card { padding: 28px 18px 24px; }
+      .button-area { height: 170px; }
+      #missBtn { top: 92px; }
+      .btn { padding: 13px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bubbles" id="bubbles" aria-hidden="true"></div>
+  <div class="love-layer" id="loveLayer" aria-hidden="true"></div>
+
+  <main class="card" id="card">
+    <div id="questionView">
+      <div class="tag">a tiny question for my favorite person</div>
+      <h1>Hey beautiful 💗</h1>
+      <p class="subtitle">Just checking in on the cutest human I know...</p>
+      <div class="question">How are you?</div>
+
+      <div class="button-area" id="arena">
+        <button class="btn" id="alrightBtn" type="button">I'm alright</button>
+        <button class="btn" id="missBtn" type="button">I miss you</button>
+      </div>
+      <div class="hint" id="hint">choose honestly 😌</div>
+    </div>
+
+    <div id="successView" class="success hidden">
+      <div class="glow" aria-hidden="true"></div>
+      <div class="big-heart">💖</div>
+      <h2>I miss you too baby</h2>
+      <p>More than you know. Sending you the biggest hug and all my love.</p>
+      <div class="sparkle">You make my world softer, brighter, and so much sweeter.</div>
+    </div>
+  </main>
+
+  <script>
+    // Bubbly background
+    (function makeBubbles() {
+      const container = document.getElementById('bubbles');
+      const colors = ['rgba(255,255,255,0.55)', 'rgba(255,210,230,0.45)', 'rgba(243,232,255,0.5)'];
+      const count = 18;
+      for (let i = 0; i < count; i++) {
+        const b = document.createElement('div');
+        const isHeart = Math.random() < 0.35;
+        b.className = 'bubble' + (isHeart ? ' heart' : '');
+        const size = isHeart ? (16 + Math.random() * 18) : (20 + Math.random() * 70);
+        const left = Math.random() * 100;
+        const dur = 10 + Math.random() * 14;
+        const delay = Math.random() * 12;
+        const drift = (Math.random() * 80 - 40).toFixed(0) + 'px';
+        b.style.left = left + 'vw';
+        b.style.animationDuration = dur + 's';
+        b.style.animationDelay = (-delay) + 's';
+        b.style.setProperty('--drift', drift);
+        if (isHeart) {
+          b.textContent = Math.random() < 0.5 ? '❤' : '💕';
+          b.style.fontSize = size + 'px';
+        } else {
+          b.style.width = size + 'px';
+          b.style.height = size + 'px';
+          b.style.background = colors[Math.floor(Math.random() * colors.length)];
+        }
+        container.appendChild(b);
+      }
+    })();
+
+    const arena = document.getElementById('arena');
+    const alrightBtn = document.getElementById('alrightBtn');
+    const missBtn = document.getElementById('missBtn');
+    const hint = document.getElementById('hint');
+    const questionView = document.getElementById('questionView');
+    const successView = document.getElementById('successView');
+    const loveLayer = document.getElementById('loveLayer');
+
+    const dodgeLines = [
+      "hey! that one's shy 🙈",
+      "nope, try the other one 😌",
+      "too slow, cutie!",
+      "that button is feeling playful today",
+      "hmm... I think you meant the other one 💕",
+      "nice try! 😄"
+    ];
+    let dodgeCount = 0;
+
+    function moveAlrightButton() {
+      const areaRect = arena.getBoundingClientRect();
+      const btnRect = alrightBtn.getBoundingClientRect();
+      const pad = 6;
+      const maxX = Math.max(pad, areaRect.width - btnRect.width - pad);
+      const maxY = Math.max(pad, areaRect.height - btnRect.height - pad);
+
+      const currentLeft = alrightBtn.offsetLeft;
+      const currentTop = alrightBtn.offsetTop;
+      let x = currentLeft, y = currentTop;
+      let tries = 0;
+
+      // Pick a new spot far enough away to feel playful
+      while (tries < 12) {
+        x = pad + Math.random() * (maxX - pad);
+        y = pad + Math.random() * (maxY - pad);
+        const dx = x - currentLeft;
+        const dy = y - currentTop;
+        if (Math.sqrt(dx * dx + dy * dy) > 60 || tries === 11) break;
+        tries++;
+      }
+
+      alrightBtn.style.transform = 'none';
+      alrightBtn.style.left = x + 'px';
+      alrightBtn.style.top = y + 'px';
+
+      dodgeCount++;
+      hint.textContent = dodgeLines[dodgeCount % dodgeLines.length];
+    }
+
+    // Make it impossible to click: dodge on approach/hover/touch
+    ['mouseenter', 'mouseover', 'pointerdown', 'touchstart'].forEach(evt => {
+      alrightBtn.addEventListener(evt, function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        moveAlrightButton();
+      }, { passive: false });
+    });
+
+    alrightBtn.addEventListener('click', function(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      moveAlrightButton();
+    });
+
+    // Extra fun: if the cursor gets close, scoot away
+    arena.addEventListener('mousemove', function(e) {
+      const r = alrightBtn.getBoundingClientRect();
+      const cx = r.left + r.width / 2;
+      const cy = r.top + r.height / 2;
+      const dx = e.clientX - cx;
+      const dy = e.clientY - cy;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 70) moveAlrightButton();
+    });
+
+    function spawnHeartsBurst(total, durationMs) {
+      const hearts = ['💖','💗','💘','💕','❤️','💞','💓'];
+      const start = Date.now();
+      function emitWave(count) {
+        for (let i = 0; i < count; i++) {
+          const el = document.createElement('div');
+          el.className = 'float-heart';
+          el.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+          const left = Math.random() * 100;
+          const dx = (Math.random() * 160 - 80).toFixed(0) + 'px';
+          const rot = (Math.random() * 80 - 40).toFixed(0) + 'deg';
+          const scale = (0.8 + Math.random() * 1.4).toFixed(2);
+          const dur = (3.5 + Math.random() * 3.5).toFixed(2) + 's';
+          const size = (18 + Math.random() * 26).toFixed(0) + 'px';
+          el.style.left = left + 'vw';
+          el.style.fontSize = size;
+          el.style.setProperty('--dx', dx);
+          el.style.setProperty('--rot', rot);
+          el.style.setProperty('--scale', scale);
+          el.style.setProperty('--dur', dur);
+          loveLayer.appendChild(el);
+          setTimeout(() => el.remove(), 7500);
+        }
+      }
+      emitWave(Math.ceil(total * 0.4));
+      const interval = setInterval(() => {
+        if (Date.now() - start > durationMs) {
+          clearInterval(interval);
+          return;
+        }
+        emitWave(4 + Math.floor(Math.random() * 4));
+      }, 350);
+    }
+
+    missBtn.addEventListener('click', function() {
+      questionView.classList.add('hidden');
+      successView.classList.remove('hidden');
+      spawnHeartsBurst(28, 4500);
+      // keep a gentle occasional heart floating
+      setInterval(() => spawnHeartsBurst(3, 100), 2200);
+    });
+  </script>
+</body>
+</html>
